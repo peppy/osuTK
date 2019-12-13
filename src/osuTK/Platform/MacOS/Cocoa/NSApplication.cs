@@ -43,6 +43,36 @@ namespace osuTK.Platform.MacOS
             System.Threading.Thread.CurrentThread.ManagedThreadId;
 
         internal static void Initialize() { }
+        
+        [DllImport ("/System/Library/Frameworks/AppKit.framework/AppKit")]
+        internal static extern int TransformProcessType(ref ProcessSerialNumber psn, ProcessApplicationTransformState type);
+        
+        [DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+        internal static extern int GetCurrentProcess(ref ProcessSerialNumber psn);
+        [DllImport("/System/Library/Frameworks/Carbon.framework/Versions/Current/Carbon")]
+        internal static extern int SetFrontProcess(ref ProcessSerialNumber psn);
+        
+        internal struct ProcessSerialNumber
+        {
+            public ulong high;
+            public ulong low;
+        }
+        
+        private static void TransformProcessToForeground()
+        {
+            ProcessSerialNumber psn = new ProcessSerialNumber();
+            
+            Debug.Print("Setting process to be foreground application.");
+            
+            GetCurrentProcess(ref psn);
+            TransformProcessType(ref psn, ProcessApplicationTransformState.kProcessTransformToForegroundApplication);
+            SetFrontProcess(ref psn);
+        }
+        
+        internal enum ProcessApplicationTransformState : int
+        {
+            kProcessTransformToForegroundApplication = 1,
+        }
 
         static NSApplication()
         {
@@ -101,6 +131,8 @@ namespace osuTK.Platform.MacOS
                 Selector.Get("registerDefaults:"),
                 settings);
             Cocoa.SendVoid(settings, Selector.Release);
+
+            TransformProcessToForeground();
         }
 
         internal static bool IsUIThread
