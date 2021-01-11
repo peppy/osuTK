@@ -126,9 +126,6 @@ namespace osuTK.Platform.Windows
 
         protected override void CreateDrivers()
         {
-            keyboard_driver = new WinRawKeyboard(Parent.Handle);
-            mouse_driver = new WinRawMouse(Parent.Handle);
-            joystick_driver = new WinRawJoystick(Parent.Handle);
             DevNotifyHandle = RegisterForDeviceNotifications(Parent);
         }
 
@@ -165,17 +162,34 @@ namespace osuTK.Platform.Windows
 
         public override IKeyboardDriver2 KeyboardDriver
         {
-            get { return keyboard_driver; }
+            get
+            {
+                if (keyboard_driver == null)
+                    keyboard_driver = new WinRawKeyboard(Parent.Handle);
+
+                return keyboard_driver;
+            }
         }
 
         public override IMouseDriver2 MouseDriver
         {
-            get { return mouse_driver; }
+            get
+            {
+                if (mouse_driver == null)
+                    mouse_driver = new WinRawMouse(Parent.Handle);
+
+                return mouse_driver; }
         }
 
         public override IJoystickDriver2 JoystickDriver
         {
-            get { return joystick_driver; }
+            get {
+                if (joystick_driver == null)
+                    joystick_driver = new WinRawJoystick(Parent.Handle);
+
+
+                return joystick_driver;
+            }
         }
     }
 }
