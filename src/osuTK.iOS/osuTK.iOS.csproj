@@ -1,4 +1,4 @@
-<Project Sdk="MSBuild.Sdk.Extras/1.6.55">
+<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <Import Project="..\Common.props" />
   <PropertyGroup>
     <OutputType>Library</OutputType>
@@ -7,7 +7,7 @@
     <RootNamespace>osuTK.iOS</RootNamespace>
     <AssemblyName>osuTK.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <TargetFramework>xamarinios10</TargetFramework>
+    <TargetFramework>xamarin.ios10</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

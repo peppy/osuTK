@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.55">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.23">
   <Import Project="..\Common.props" />
   <PropertyGroup>
     <OutputType>Library</OutputType>
